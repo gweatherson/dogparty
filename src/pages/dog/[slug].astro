@@ -1,0 +1,34 @@
+---
+import Layout from "../../layouts/Layout.astro";
+import { getDogs } from "../../utils/sanity";
+import { getDogBySlug } from "../../utils/sanity";
+
+export async function getStaticPaths() {
+  const dogs = await getDogs();
+  return dogs.filter(dog => dog.slug?.current).map(dog => ({
+    params: { slug: dog.slug.current },
+  }));
+}
+const slug = Astro.params.slug;
+const dog = await getDogBySlug(slug);
+---
+<Layout title={dog ? dog.name : 'Dog not found'}>
+
+  <a href="/">Back</a>
+
+  {dog ? (
+    <section class="dog">
+      <h1>{dog.name}</h1>
+      <p>Sex: {dog.sex}</p>
+      {dog.photo && (
+        <img
+          src={dog.photo.asset.url}
+          alt={dog.photo.alt || 'Dog image'}
+        />
+      )}
+      {/* Add any other dog details you want to display */}
+    </section>
+  ) : (
+    <p>Dog not found</p>
+  )}
+</Layout>

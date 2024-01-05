@@ -1,0 +1,26 @@
+---
+import type { Dogs } from "../utils/sanity";
+
+interface Props {
+  dog: Dogs;
+}
+
+const { dog } = Astro.props;
+---
+
+<div class="card">
+  <h3>{dog.name} - <em>{dog.sex}</em></h3>
+
+  {dog.photo && (
+    <img src={dog.photo.asset.url} alt={dog.photo.alt || 'Dog image'} />
+  )}
+
+  <a href={`/dog/${dog.slug?.current || ''}`}>See profile</a>
+</div>
+
+<style>
+  .card img {
+    max-width: 10rem;
+    height: auto;
+  }
+</style>

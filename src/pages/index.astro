@@ -1,14 +1,16 @@
 ---
-import Card from "../components/Card.astro";
-import Welcome from "../components/Welcome.astro";
 import Layout from "../layouts/Layout.astro";
-import { getPosts } from "../utils/sanity";
+import Dog from "../components/Dog.astro";
+import { getDogs } from  "../utils/sanity";
 
-const posts = await getPosts();
+const dogs = await getDogs();
 ---
+<Layout title="Dog Party">
 
-<Layout title="Welcome to Astro.">
   <section>
-    {posts.length ? posts.map((post) => <Card post={post} />) : <Welcome />}
+    {dogs.length ? dogs.map((dog) => (
+      <Dog dog={dog} />
+    )) : "Woof, no dogs found."}
   </section>
+
 </Layout>

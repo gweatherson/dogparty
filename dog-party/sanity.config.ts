@@ -7,8 +7,8 @@ export default defineConfig({
   name: 'default',
   title: 'Dog Party',
 
-  projectId: 'wi48n3ye',
-  dataset: 'production',
+  projectId: process.env.SANITY_STUDIO_PUBLIC_PROJECT_ID || 'defaultProjectId',
+  dataset: process.env.SANITY_STUDIO_PUBLIC_DATASET || 'defaultDataset',
 
   plugins: [deskTool(), visionTool()],
 
