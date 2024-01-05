@@ -1,19 +1,18 @@
 ---
 import Layout from "../../layouts/Layout.astro";
-import { getDogs } from "../../utils/sanity";
-import { getDogBySlug } from "../../utils/sanity";
+import { getDogs, getDogBySlug, Dogs } from "../../utils/sanity";
 
 export async function getStaticPaths() {
-  const dogs = await getDogs();
+  const dogs: Dogs[] = await getDogs();
   return dogs.filter(dog => dog.slug?.current).map(dog => ({
-    params: { slug: dog.slug.current },
+    params: { slug: dog.slug?.current || '' },
   }));
 }
-const slug = Astro.params.slug;
-const dog = await getDogBySlug(slug);
+
+const slug: string = Astro.params.slug;
+const dog: Dogs | null = await getDogBySlug(slug);
 ---
 <Layout title={dog ? dog.name : 'Dog not found'}>
-
   <a href="/">Back</a>
 
   {dog ? (
