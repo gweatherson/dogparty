@@ -1,6 +1,7 @@
 ---
 import Layout from "../../layouts/Layout.astro";
-import { getDogs, getDogBySlug, Dogs } from "../../utils/sanity";
+import { getDogs, getDogBySlug } from "../../utils/sanity";
+import type { Dogs } from "../../utils/sanity"; // Type-only import for Dogs
 
 export async function getStaticPaths() {
   const dogs: Dogs[] = await getDogs();
@@ -9,10 +10,10 @@ export async function getStaticPaths() {
   }));
 }
 
-const slug: string = Astro.params.slug;
+const slug: string = Astro.params.slug ?? ''; // Ensure slug is always a string
 const dog: Dogs | null = await getDogBySlug(slug);
 ---
-<Layout title={dog ? dog.name : 'Dog not found'}>
+<Layout title={dog && dog.name ? dog.name : 'Dog not found'}>
   <a href="/">Back</a>
 
   {dog ? (
