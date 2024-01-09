@@ -19,7 +19,6 @@ export async function getDogs(): Promise<Dogs[]> {
       }`
 
     );
-    console.log(dogsData);
     return dogsData;
   } catch (error) {
     console.error("We got no dogs:", error);
@@ -45,7 +44,6 @@ export async function getDogBySlug(slug: string): Promise<Dogs | null> {
       }[0]`, // [0] to get the first item of the array
       { slug }
     );
-    console.log(dogData);
     return dogData;
   } catch (error) {
     console.error("Error fetching dog:", error);

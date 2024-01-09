@@ -47,4 +47,34 @@ const { title } = Astro.props;
 </style>
 
 <style is:global>
+  :root {
+    --max-width: 1400px;
+    --yellow: #FF9800;
+    --red: #B80000;
+
+    --dark: hsl(50 0% 6%);
+    --grey:  hsl(50 0% 14%);
+    --light: hsl(50 0% 80%);
+  }
+
+  body {
+    background: var(--dark);
+    color: var(--light);
+  }
+
+  a {
+    color: var(--light);
+    text-decoration: none;
+  }
+
+  .header,
+  main,
+  .footer {
+    max-width: var(--max-width);
+    margin: auto;
+  }
+
+  .header {
+    margin-block-end: 2rem;
+  }
 </style>
