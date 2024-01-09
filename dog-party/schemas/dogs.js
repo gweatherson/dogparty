@@ -23,6 +23,11 @@ export default {
       type: 'image',
     },
     {
+      name: 'breed',
+      type: 'string',
+      title: 'Breed'
+    },
+    {
       name: 'sex',
       type: 'string',
       title: 'Sex',
@@ -33,6 +38,24 @@ export default {
         ],
         layout: 'dropdown'
       }
+    },
+    {
+      name: 'good',
+      type: 'string',
+      title: 'Good Dog?',
+      options: {
+        list: [
+          { title: 'Yes', value: 'yes' },
+          { title: 'Sometimes', value: 'sometimes' },
+          { title: 'No, bad dog.', value: 'no' }
+        ],
+        layout: 'dropdown'
+      }
+    },
+    {
+      title: 'Bio',
+      name: 'bio',
+      type: 'text'
     }
   ]
 }

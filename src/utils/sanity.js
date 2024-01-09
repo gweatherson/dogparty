@@ -1,7 +1,7 @@
 import { useSanityClient } from "@sanity/astro";
 import groq from "groq";
 
-export async function getDogs(): Promise<Dogs[]> {
+export async function getDogs() {
   try {
     const dogsData = await useSanityClient().fetch(
       groq`*[_type == "dogs" && defined(slug.current)] | order(_createdAt desc) {
@@ -17,7 +17,6 @@ export async function getDogs(): Promise<Dogs[]> {
           alt
         }
       }`
-
     );
     return dogsData;
   } catch (error) {
@@ -26,13 +25,16 @@ export async function getDogs(): Promise<Dogs[]> {
   }
 }
 
-export async function getDogBySlug(slug: string): Promise<Dogs | null> {
+export async function getDogBySlug(slug) {
   try {
     const dogData = await useSanityClient().fetch(
       groq`*[_type == "dogs" && slug.current == $slug] | order(_createdAt desc) {
         _createdAt,
         name,
         sex,
+        breed,
+        good,
+        bio,
         slug,
         photo {
           asset->{
@@ -50,21 +52,3 @@ export async function getDogBySlug(slug: string): Promise<Dogs | null> {
     return null;
   }
 }
-
-export interface Dogs {
-  _type: "dogs";
-  _createdAt: string;
-  name?: string;
-  sex?: string;
-  slug?: {
-    current: string;
-  };
-  photo?: {
-    asset: {
-      _id: string;
-      url: string;
-    };
-    alt?: string;
-  };
-}
-

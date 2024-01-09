@@ -1,3 +1,11 @@
 {
-  "nuxt.isNuxtApp": false
+  "nuxt.isNuxtApp": false,
+  "[astro]": {
+    "editor.defaultFormatter": "AstroBuild.astro-vscode",
+    "editor.formatOnSave": true
+  },
+  "typescript.validate.enable": false,
+  "files.associations": {
+    "*.astro": "html"
+  }
 }
