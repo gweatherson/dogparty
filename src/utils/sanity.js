@@ -8,6 +8,7 @@ export async function getDogs() {
         _createdAt,
         name,
         sex,
+        good,
         slug,
         photo {
           asset->{

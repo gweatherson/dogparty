@@ -4,34 +4,79 @@ import Dog from "../components/Dog.astro";
 import { getDogs } from  "../utils/sanity";
 
 const dogs = await getDogs();
+const shuffledDogs = shuffleArray([...dogs]);
 
-function shuffleArray<T>(array: T[]): T[] {
+function shuffleArray(array) {
   let currentIndex = array.length, randomIndex;
-
-  // While there remain elements to shuffle...
   while (currentIndex !== 0) {
-    // Pick a remaining element...
     randomIndex = Math.floor(Math.random() * currentIndex);
     currentIndex--;
-
-    // And swap it with the current element.
     [array[currentIndex], array[randomIndex]] = [array[randomIndex], array[currentIndex]];
   }
-
   return array;
 }
-
-const randomDogs = shuffleArray([...dogs]);
 ---
+
 <Layout title="Dog Party">
+  <form>
+    <label for="sex">Sex</label>
+    <select id="sex-filter" name="sex">
+      <option value="all">All</option>
+      <option value="male">Male</option>
+      <option value="female">Female</option>
+    </select>
+
+    <label for="good">Good?</label>
+    <select id="good-filter" name="good">
+      <option value="all">All</option>
+      <option value="yes">Yes</option>
+      <option value="sometimes">Sometimes</option>
+      <option value="no">No</option>
+    </select>
+  </form>
 
   <section class="cards">
-    {randomDogs.length ? randomDogs.map((dog) => (
-      <Dog dog={dog} />
+    {shuffledDogs.length ? shuffledDogs.map((dog) => (
+      <Dog key={dog.name} dog={dog} />
     )) : "Woof, no dogs found."}
   </section>
 
+  <p id="no-dogs-message" style="display: none">Woof, no dogs found.</p>
 </Layout>
+
+<script type="module" is:client>
+  document.addEventListener('DOMContentLoaded', () => {
+    const sexFilterElement = document.getElementById('sex-filter');
+    const goodFilterElement = document.getElementById('good-filter');
+
+    const applyFilters = () => {
+      const sexFilter = sexFilterElement.value;
+      const goodFilter = goodFilterElement.value;
+      const dogCards = document.querySelectorAll('.cards .card');
+
+      let allHidden = true;
+
+      dogCards.forEach(card => {
+        const dogSex = card.getAttribute('data-sex');
+        const dogGood = card.getAttribute('data-good');
+        const sexMatch = sexFilter === 'all' || dogSex == sexFilter;
+        const goodMatch = goodFilter === 'all' || dogGood === goodFilter;
+
+        if(sexMatch && goodMatch) {
+          card.style.display = '';
+          allHidden = false;
+        } else {
+          card.style.display = 'none';
+        }
+
+        document.getElementById('no-dogs-message').style.display = allHidden ? '' : 'none';
+      });
+    };
+
+    sexFilterElement.addEventListener('change', applyFilters);
+    goodFilterElement.addEventListener('change', applyFilters);
+  })
+</script>
 
 <style>
   .cards {

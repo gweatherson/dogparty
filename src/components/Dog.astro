@@ -2,7 +2,7 @@
 const { dog } = Astro.props;
 ---
 
-<div class="card">
+<div class="card" data-sex={dog.sex} data-good={dog.good}>
   {dog.photo && (
     <img src={dog.photo.asset.url + "?w=500"} alt={dog.photo.alt || `photo of ${dog.name}`} />
   )}
