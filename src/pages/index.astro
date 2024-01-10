@@ -44,7 +44,7 @@ function shuffleArray(array) {
   <p id="no-dogs-message" style="display: none">Woof, no dogs found.</p>
 
   <script type="module">
-    document.addEventListener('DOMContentLoaded', () => {
+    function setupFilters() {
       const sexFilterElement = document.getElementById('sex-filter');
       const goodFilterElement = document.getElementById('good-filter');
 
@@ -74,7 +74,20 @@ function shuffleArray(array) {
 
       sexFilterElement.addEventListener('change', applyFilters);
       goodFilterElement.addEventListener('change', applyFilters);
+    }
+
+    document.addEventListener('DOMContentLoaded', setupFilters);
+
+    const observer = new MutationObserver((mutations, obs) => {
+      const sexFilterElement = document.getElementById('sex-filter');
+      const goodFilterElement = document.getElementById('good-filter');
+      if(sexFilterElement && goodFilterElement) {
+        setupFilters();
+        obs.disconnect();
+      }
     });
+
+    observer.observe(document, { childList: true, subtree: true});
   </script>
 </Layout>
 
