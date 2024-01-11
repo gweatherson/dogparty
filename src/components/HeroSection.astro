@@ -1,0 +1,8 @@
+---
+const { heading, subheading } = Astro.props;
+---
+
+<section class="hero">
+  {heading && <h1>{heading}</h1>}
+  {subheading && <p>{subheading}</p>}
+</section>

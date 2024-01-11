@@ -1,6 +1,20 @@
 import { useSanityClient } from "@sanity/astro";
 import groq from "groq";
 
+export async function getPages() {
+  return await useSanityClient().fetch(
+    groq`*[_type == "page" && defined(slug.current)] | order(_createdAt desc)`
+  );
+}
+
+export async function getPage(slug) {
+  return await useSanityClient().fetch(
+    `*[_type == "page" && slug.current == $slug]{title, sections}[0]`,
+    { slug }
+  );
+}
+
+
 export async function getDogs() {
   try {
     const dogsData = await useSanityClient().fetch(
